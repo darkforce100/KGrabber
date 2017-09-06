@@ -24,7 +24,7 @@ var saveHome = System.getProperty("user.home") + System.getProperty("file.separa
 var users = Vector<String>()
 var subreddits = Vector<String>()
 
-fun main(args: Array<String>){
+fun main(args: Array<String>?){
     parseDB()
     val values = Vector<String>()
     for (e:String in users){
@@ -62,10 +62,18 @@ fun main(args: Array<String>){
         mainFrame.dispose()
         addItemGUI()
     }
+    val clear = JButton("Clear List")
+    clear.addActionListener { _->
+        users = Vector()
+        subreddits = Vector()
+        writeDBFile()
+        mainFrame.dispose()
+        main(null)
+    }
     toolbar.add(settings)
     toolbar.add(Container())
     toolbar.add(Container())
-    toolbar.add(Container())
+    toolbar.add(clear)
     toolbar.add(add)
     toolbar.add(fetch)
     mainFrame.add(toolbar, BorderLayout.NORTH)
