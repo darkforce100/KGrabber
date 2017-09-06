@@ -8,7 +8,7 @@ import org.apache.commons.io.FileUtils
 import org.jsoup.Jsoup
 import java.io.File
 import java.net.URL
-import java.util.Vector
+import java.util.*
 
 /**
  * Created by Trenton on 7/15/2017.
@@ -16,13 +16,7 @@ import java.util.Vector
 
 var accessedPages = Vector<String>()
 
-class PageParserThread constructor(s: String, f: String) : Thread() {
-    val s: String
-    val f: String
-    init {
-        this.s = s
-        this.f = f
-    }
+class PageParserThread constructor(private val s: String, private val f: String) : Thread() {
     override fun run() {
         try {
             print("\nLINK CRAWLER " + s)
@@ -55,21 +49,10 @@ class PageParserThread constructor(s: String, f: String) : Thread() {
 
 }
 
-class ImageDownloaderThread constructor(s: String, f: String) : Thread() {
-    val s: String
-    val f: String
-    init {
-        this.s = s
-        this.f = f
-    }
+class ImageDownloaderThread constructor(private val s: String, private val f: String) : Thread() {
     override fun run() {
         print("\n --- " + s)
-        var accessed: Boolean = false
-        for (i: String in accessedPages){
-            if (s == i){
-                accessed = true
-            }
-        }
+        val accessed = accessedPages.contains(s)
         if (!accessed) {
             accessedPages.addElement(s)
             try {

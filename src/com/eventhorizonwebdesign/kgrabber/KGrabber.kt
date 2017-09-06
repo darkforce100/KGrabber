@@ -5,7 +5,10 @@
 package com.eventhorizonwebdesign.kgrabber
 
 import com.eventhorizonwebdesign.kgrabber.webutils.PageParserThread
-import java.awt.*
+import java.awt.BorderLayout
+import java.awt.Container
+import java.awt.Dimension
+import java.awt.GridLayout
 import java.io.*
 import java.util.*
 import javax.swing.*
@@ -30,7 +33,7 @@ fun main(args: Array<String>){
     for (e:String in subreddits){
         values.addElement("/r/" + e)
     }
-    rootsPanel = JList<String>(values)
+    rootsPanel = JList(values)
     mainFrame.isVisible = true
     val mainPanel = JPanel()
     mainFrame.contentPane = mainPanel
@@ -85,7 +88,7 @@ fun addItemGUI(){
     addFrame.size = Dimension(500, 200)
     addFrame.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
     val radioContainer = Container()
-    radioContainer.layout = GridLayout(1, 2);
+    radioContainer.layout = GridLayout(1, 2)
     val uRadio = JRadioButton("User")
     val rRadio = JRadioButton("Subreddit")
     val group = ButtonGroup()
@@ -102,12 +105,12 @@ fun addItemGUI(){
         if (inputBox.text == ""){
             //TODO error no text
         } else {
-            if (uRadio.isSelected) {
-                users.addElement(inputBox.text)
-            } else if (rRadio.isSelected) {
-                subreddits.addElement(inputBox.text)
-            } else {
-                //TODO error no type selected
+            when {
+                uRadio.isSelected -> users.addElement(inputBox.text)
+                rRadio.isSelected -> subreddits.addElement(inputBox.text)
+                else -> {
+                    //TODO error no type selected
+                }
             }
         }
         writeDBFile()
@@ -125,38 +128,34 @@ fun writeDBFile(){
     * Type 1 = SUBREDDIT
     * */
     val usersFinalized = Vector<String>()
-    for (s:String in users) {
-        val str = s
-        if (str.substring(0, 3) == "/u/") {
-            usersFinalized.addElement(str.substring(3, str.length))
-        } else if (str.substring(0, 2) == "u/") {
-            usersFinalized.addElement(str.substring(2, str.length))
-        } else if (str.substring(str.length - 1, str.length) == "/") {
-            usersFinalized.addElement(str.substring(0, str.length - 1))
-        } else {
-            usersFinalized.addElement(str)
-        }
-    }
+    users
+            .map { it }
+            .forEach {
+                when {
+                    it.substring(0, 3) == "/u/" -> usersFinalized.addElement(it.substring(3, it.length))
+                    it.substring(0, 2) == "u/" -> usersFinalized.addElement(it.substring(2, it.length))
+                    it.substring(it.length - 1, it.length) == "/" -> usersFinalized.addElement(it.substring(0, it.length - 1))
+                    else -> usersFinalized.addElement(it)
+                }
+            }
     writeFinalizedUsers(usersFinalized)
     val subsFinalized = Vector<String>()
-    for (s:String in subreddits) {
-        val str = s
-        if (str.substring(0, 3) == "/r/") {
-            subsFinalized.addElement(str.substring(3, str.length))
-        } else if (str.substring(0, 2) == "r/") {
-            subsFinalized.addElement(str.substring(2, str.length))
-        } else if (str.substring(str.length - 1, str.length) == "/") {
-            subsFinalized.addElement(str.substring(0, str.length - 1))
-        } else {
-            subsFinalized.addElement(str)
-        }
-    }
+    subreddits
+            .map { it }
+            .forEach {
+                when {
+                    it.substring(0, 3) == "/r/" -> subsFinalized.addElement(it.substring(3, it.length))
+                    it.substring(0, 2) == "r/" -> subsFinalized.addElement(it.substring(2, it.length))
+                    it.substring(it.length - 1, it.length) == "/" -> subsFinalized.addElement(it.substring(0, it.length - 1))
+                    else -> subsFinalized.addElement(it)
+                }
+            }
     writeFinalizedSubreddits(subsFinalized)
 }
 
 fun parseDB(){
-    users = Vector<String>()
-    subreddits = Vector<String>()
+    users = Vector()
+    subreddits = Vector()
     try {
         val folder = File(dataHome)
         if(folder.exists()){
@@ -278,8 +277,8 @@ fun fetchAll(){
 }
 
 fun fetchUser(u: String){
-    val url = "http://reddit.com" + u + "/submitted/"
-    print("\nFetching" + url + "...")
+    val url = "http://reddit.com$u/submitted/"
+    print("\nFetching$url...")
     val userFolder = saveHome + System.getProperty("file.separator") + u
     val userFolderFile = File(userFolder)
     userFolderFile.mkdirs()
@@ -288,8 +287,8 @@ fun fetchUser(u: String){
 
 fun fetchSubreddit(r: String){
     //TODO fetch to sub folder
-    val url = "http://reddit.com" + r + "/new/"
-    print("\nFetching" + url + "...")
+    val url = "http://reddit.com$r/new/"
+    print("\nFetching$url...")
     val subredditFolder = saveHome + System.getProperty("file.separator") + r
     val subredditFolderFile = File(subredditFolder)
     subredditFolderFile.mkdirs()
