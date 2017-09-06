@@ -65,6 +65,7 @@ class ImageDownloaderThread constructor(private val s: String, private val f: St
                         && !s.contains("cloudfront.net")) {
                     print("\n SELECTED")
                     FileUtils.copyURLToFile(URL(s), File(f + System.getProperty("file.separator") + s.substring(s.lastIndexOf('/') + 1, s.length)))
+                    print("\n SAVED " + s.substring(s.lastIndexOf('/') + 1, s.length) + " TO HDD")
                 } else {
                     print("\n PAGE SELECTED")
                     val doc = Jsoup.connect(s).get()
