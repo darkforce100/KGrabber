@@ -26,8 +26,7 @@ class PageParserThread constructor(private val s: String, private val f: String)
 
             for (link in links) {
                 // Site filter
-                // @INDEV
-                print("\n -- " + link.attr("abs:href"))
+                // @INDEV print("\n -- " + link.attr("abs:href"))
                 if ((link.attr("abs:href").contains("://imgur.com/", true)
                         || link.attr("abs:href").contains("://i.imgur.com/", true)
                         || link.attr("abs:href").contains("://www.flickr.com/", true)
@@ -44,7 +43,7 @@ class PageParserThread constructor(private val s: String, private val f: String)
                 }
             }
             print("\nPAGE PARSE COMPLETE")
-            if (!nextFound){print("NO NEXT FOUND")}
+            if (!nextFound){print("\nNO NEXT FOUND")}
         } catch (e: Exception) {
             print("\n" + e.message)
             print("\n" + s + " 404ed :(")
