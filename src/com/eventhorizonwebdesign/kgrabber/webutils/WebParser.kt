@@ -17,6 +17,7 @@ import java.util.*
 var accessedPages = Vector<String>()
 
 class PageParserThread constructor(private val s: String, private val f: String) : Thread() {
+    var nextFound = false
     override fun run() {
         try {
             print("\nLINK CRAWLER " + s)
@@ -25,7 +26,8 @@ class PageParserThread constructor(private val s: String, private val f: String)
 
             for (link in links) {
                 // Site filter
-                // @INDEV print("\n -- " + link.attr("abs:href"))
+                // @INDEV
+                print("\n -- " + link.attr("abs:href"))
                 if ((link.attr("abs:href").contains("://imgur.com/", true)
                         || link.attr("abs:href").contains("://i.imgur.com/", true)
                         || link.attr("abs:href").contains("://www.flickr.com/", true)
@@ -37,9 +39,12 @@ class PageParserThread constructor(private val s: String, private val f: String)
                     ImageDownloaderThread(link.attr("abs:href"), f).start()
                 } else if (link.text().contains("next", true)) {
                     print("\nNEXT FOUND")
+                    nextFound = true
                     PageParserThread(link.attr("abs:href"), f).start()
                 }
             }
+            print("\nPAGE PARSE COMPLETE")
+            if (!nextFound){print("NO NEXT FOUND")}
         } catch (e: Exception) {
             print("\n" + e.message)
             print("\n" + s + " 404ed :(")
@@ -85,8 +90,10 @@ class ImageDownloaderThread constructor(private val s: String, private val f: St
                                 && !src.attr("abs:src").contains("cloudfront.net")) {
                             print("\n SELECTED")
                             FileUtils.copyURLToFile(URL(src.attr("abs:src")), File(f + System.getProperty("file.separator") + src.attr("abs:src").substring(src.attr("abs:src").lastIndexOf('/') + 1, src.attr("abs:src").length)))
+                            print("\n SAVED " + s.substring(s.lastIndexOf('/') + 1, s.length) + " TO HDD")
                         }
                     }
+                    print("\nPAGE PARSE COMPLETE")
                 }
             } catch (e: Exception) {
                 print("\n" + e.message)

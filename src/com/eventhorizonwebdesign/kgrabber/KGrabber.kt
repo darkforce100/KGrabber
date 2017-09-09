@@ -286,7 +286,8 @@ fun fetchAll(){
 
 fun fetchUser(u: String){
     val url = "http://reddit.com$u/submitted/"
-    print("\nFetching$url...")
+    print("\nFetching $url...")
+    url.replace("/u/", "/user/", true)
     val userFolder = saveHome + System.getProperty("file.separator") + u
     val userFolderFile = File(userFolder)
     userFolderFile.mkdirs()
