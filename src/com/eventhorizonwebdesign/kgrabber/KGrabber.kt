@@ -92,6 +92,8 @@ fun addItemGUI(){
     addPanel.layout = BorderLayout()
     val addInstruct = JLabel("Add a new /u/ or /r/ to crawl:")
     addInstruct.alignmentX = JLabel.CENTER_ALIGNMENT
+    addInstruct.horizontalAlignment = SwingConstants.CENTER
+    addInstruct.size = Dimension(500, 50)
     addPanel.add(addInstruct, BorderLayout.NORTH)
     addFrame.size = Dimension(500, 200)
     addFrame.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
