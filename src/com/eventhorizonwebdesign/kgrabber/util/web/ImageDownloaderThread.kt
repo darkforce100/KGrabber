@@ -1,8 +1,4 @@
-/*
- * Copyright (c) 2017. Event Horizon Web Design. All rights reserved.
- */
-
-package com.eventhorizonwebdesign.kgrabber.webutils
+package com.eventhorizonwebdesign.kgrabber.util.web
 
 import org.apache.commons.io.FileUtils
 import org.jsoup.Jsoup
@@ -10,48 +6,7 @@ import java.io.File
 import java.net.URL
 import java.util.*
 
-/**
- * Created by Trenton on 7/15/2017.
- */
-
 var accessedPages = Vector<String>()
-
-class PageParserThread constructor(private val s: String, private val f: String) : Thread() {
-    var nextFound = false
-    override fun run() {
-        try {
-            print("\nLINK CRAWLER " + s)
-            val doc = Jsoup.connect(s).ignoreContentType(true).get()
-            val links = doc.select("a[href]")
-
-            for (link in links) {
-                // Site filter
-                // @INDEV print("\n -- " + link.attr("abs:href"))
-                if ((link.attr("abs:href").contains("://imgur.com/", true)
-                        || link.attr("abs:href").contains("://i.imgur.com/", true)
-                        || link.attr("abs:href").contains("://www.flickr.com/", true)
-                        || link.attr("abs:href").contains("://gfycat.com/", true)
-                        || link.attr("abs:href").contains("://i.redd.it/", true)
-                        || link.attr("abs:href").contains("://www.instagram.com/", true))
-                        && !link.attr("abs:href").contains("://www.facebook.com/tr", true)
-                        && !link.attr("abs:href").contains("cloudfront.net", true)) {
-                    ImageDownloaderThread(link.attr("abs:href"), f).start()
-                } else if (link.text().contains("next", true)) {
-                    print("\nNEXT FOUND")
-                    nextFound = true
-                    PageParserThread(link.attr("abs:href"), f).start()
-                }
-            }
-            print("\nPAGE PARSE COMPLETE")
-            if (!nextFound){print("\nNO NEXT FOUND")}
-        } catch (e: Exception) {
-            print("\n" + e.message)
-            print("\n" + s + " 404ed :(")
-        }
-    }
-
-
-}
 
 class ImageDownloaderThread constructor(private val s: String, private val f: String) : Thread() {
     override fun run() {

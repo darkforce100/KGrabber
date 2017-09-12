@@ -1,4 +1,4 @@
-package com.eventhorizonwebdesign.kgrabber.util
+package com.eventhorizonwebdesign.kgrabber.util.ui
 
 import javax.swing.JMenuItem
 import javax.swing.JPopupMenu

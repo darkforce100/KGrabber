@@ -4,8 +4,9 @@
 
 package com.eventhorizonwebdesign.kgrabber
 
-import com.eventhorizonwebdesign.kgrabber.util.ItemContextMenu
-import com.eventhorizonwebdesign.kgrabber.webutils.PageParserThread
+import com.eventhorizonwebdesign.kgrabber.util.ui.ItemAddFrame
+import com.eventhorizonwebdesign.kgrabber.util.ui.ItemContextMenu
+import com.eventhorizonwebdesign.kgrabber.util.web.PageParserThread
 import java.awt.BorderLayout
 import java.awt.Container
 import java.awt.Dimension
@@ -90,7 +91,7 @@ fun main(args: Array<String>?){
     val add = JButton("Add")
     add.addActionListener { _->
         mainFrame.dispose()
-        addItemGUI()
+        ItemAddFrame()
     }
     val clear = JButton("Clear List")
     clear.addActionListener { _->
@@ -112,54 +113,6 @@ fun main(args: Array<String>?){
     mainFrame.add(JScrollPane(rootsPanel), BorderLayout.CENTER)
     mainPanel.validate()
     mainPanel.isVisible = true
-}
-
-fun addItemGUI(){
-    val addFrame = JFrame("Add")
-    addFrame.isVisible = true
-    val addPanel = JPanel()
-    addFrame.contentPane = addPanel
-    addPanel.layout = BorderLayout()
-    val addInstruct = JLabel("Add a new /u/ or /r/ to crawl:")
-    addInstruct.alignmentX = JLabel.CENTER_ALIGNMENT
-    addInstruct.horizontalAlignment = SwingConstants.CENTER
-    addInstruct.size = Dimension(500, 50)
-    addPanel.add(addInstruct, BorderLayout.NORTH)
-    addFrame.size = Dimension(500, 200)
-    addFrame.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
-    val radioContainer = Container()
-    radioContainer.layout = GridLayout(1, 2)
-    val uRadio = JRadioButton("User")
-    val rRadio = JRadioButton("Subreddit")
-    val group = ButtonGroup()
-    group.add(uRadio)
-    group.add(rRadio)
-    radioContainer.add(uRadio)
-    radioContainer.add(rRadio)
-    addPanel.add(radioContainer, BorderLayout.CENTER)
-    val dataContainer = Container()
-    dataContainer.layout = BorderLayout()
-    val inputBox = JTextField()
-    val addButton = JButton("Add")
-    addButton.addActionListener { _->
-        if (inputBox.text == ""){
-            //TODO error no text
-        } else {
-            when {
-                uRadio.isSelected -> users.addElement(inputBox.text)
-                rRadio.isSelected -> subreddits.addElement(inputBox.text)
-                else -> {
-                    //TODO error no type selected
-                }
-            }
-        }
-        writeDBFile()
-        addFrame.dispose()
-        main(Array(0, {""}))
-    }
-    dataContainer.add(inputBox, BorderLayout.CENTER)
-    dataContainer.add(addButton, BorderLayout.SOUTH)
-    addPanel.add(dataContainer, BorderLayout.SOUTH)
 }
 
 fun writeDBFile(){
