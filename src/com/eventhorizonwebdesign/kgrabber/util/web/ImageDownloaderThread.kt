@@ -1,16 +1,13 @@
 package com.eventhorizonwebdesign.kgrabber.util.web
 
+import com.eventhorizonwebdesign.kgrabber.util.accessedPages
 import org.apache.commons.io.FileUtils
 import org.jsoup.Jsoup
 import java.io.File
 import java.net.URL
-import java.util.*
-
-var accessedPages = Vector<String>()
 
 class ImageDownloaderThread constructor(private val s: String, private val f: String) : Thread() {
     override fun run() {
-        print("\n --- " + s)
         val accessed = accessedPages.contains(s)
         if (!accessed) {
             accessedPages.addElement(s)
@@ -28,11 +25,8 @@ class ImageDownloaderThread constructor(private val s: String, private val f: St
                 } else {
                     print("\n PAGE SELECTED")
                     val doc = Jsoup.connect(s).get()
-
                     val media = doc.select("[src]")
-
                     for (src in media) {
-                        // Image Filter
                         if ((src.tagName() == "img" || src.tagName() == "source") && (src.attr("abs:src").contains("jpg")
                                 || src.attr("abs:src").contains("png", true)
                                 || src.attr("abs:src").contains("gif", true)

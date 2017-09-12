@@ -1,9 +1,9 @@
 package com.eventhorizonwebdesign.kgrabber.util.ui
 
 import com.eventhorizonwebdesign.kgrabber.main
-import com.eventhorizonwebdesign.kgrabber.subreddits
-import com.eventhorizonwebdesign.kgrabber.users
-import com.eventhorizonwebdesign.kgrabber.writeDBFile
+import com.eventhorizonwebdesign.kgrabber.util.subreddits
+import com.eventhorizonwebdesign.kgrabber.util.users
+import com.eventhorizonwebdesign.kgrabber.util.writeDBFile
 import java.awt.BorderLayout
 import java.awt.Container
 import java.awt.Dimension
