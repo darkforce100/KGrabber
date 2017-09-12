@@ -8,7 +8,7 @@ import javax.swing.JFrame
 import javax.swing.JList
 
 var accessedPages = Vector<String>()
-val mainFrame = JFrame("KGrabber")
+var mainFrame: JFrame? = null
 var rootsPanel = JList<String>(DefaultListModel<String>())
 val dataHome = System.getProperty("user.home") + System.getProperty("file.separator") + ".KGrabber"
 var saveHome = System.getProperty("user.home") + System.getProperty("file.separator") + "Downloads"
