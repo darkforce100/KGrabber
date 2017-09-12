@@ -15,10 +15,10 @@ class ImageDownloaderThread constructor(private val s: String, private val f: St
         if (!accessed) {
             accessedPages.addElement(s)
             try {
-                if ((s.contains("jpg")
-                        || s.contains("png")
-                        || s.contains("gif")
-                        || s.contains("mp4"))
+                if ((s.contains("jpg", true)
+                        || s.contains("png", true)
+                        || s.contains("gif", true)
+                        || s.contains("mp4", true))
                         && !s.contains("quantserve")
                         && !s.contains("facebook.com")
                         && !s.contains("cloudfront.net")) {
@@ -32,13 +32,12 @@ class ImageDownloaderThread constructor(private val s: String, private val f: St
                     val media = doc.select("[src]")
 
                     for (src in media) {
-                        print("\n ---P--- " + src.attr("abs:src"))
                         // Image Filter
                         if ((src.tagName() == "img" || src.tagName() == "source") && (src.attr("abs:src").contains("jpg")
-                                || src.attr("abs:src").contains("png")
-                                || src.attr("abs:src").contains("gif")
-                                || src.attr("abs:src").contains("mp4")
-                                || src.attr("abs:src").contains("webm"))
+                                || src.attr("abs:src").contains("png", true)
+                                || src.attr("abs:src").contains("gif", true)
+                                || src.attr("abs:src").contains("mp4", true)
+                                || src.attr("abs:src").contains("webm", true))
                                 && !src.attr("abs:src").contains("quantserve")
                                 && !src.attr("abs:src").contains("facebook.com")
                                 && !src.attr("abs:src").contains("cloudfront.net")) {
