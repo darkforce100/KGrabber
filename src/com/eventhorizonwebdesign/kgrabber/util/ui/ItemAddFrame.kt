@@ -29,6 +29,7 @@ class ItemAddFrame: JFrame() {
         val uRadio = JRadioButton("User")
         val rRadio = JRadioButton("Subreddit")
         val group = ButtonGroup()
+        uRadio.isSelected = true
         group.add(uRadio)
         group.add(rRadio)
         radioContainer.add(uRadio)
