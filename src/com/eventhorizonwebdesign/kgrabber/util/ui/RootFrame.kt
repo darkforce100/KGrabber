@@ -20,10 +20,10 @@ class RootFrame: JFrame() {
         this.title = "KGrabber"
         val values = Vector<String>()
         for (e:String in users){
-            values.addElement("/u/" + e)
+            values.addElement("/u/$e")
         }
         for (e:String in subreddits){
-            values.addElement("/r/" + e)
+            values.addElement("/r/$e")
         }
         rootsPanel = JList(values)
         rootsPanel.addMouseListener(object : MouseAdapter() {
@@ -36,7 +36,7 @@ class RootFrame: JFrame() {
 
             private fun doPop(e: MouseEvent) {
                 val menu = ItemContextMenu()
-                menu.deleteItem.addActionListener { _->
+                menu.deleteItem.addActionListener {
                     if (values[rootsPanel.selectedIndex].contains("/u/")){
                         users
                                 .filter { it.contains(values[rootsPanel.selectedIndex].substring(4, values[rootsPanel.selectedIndex].length), true) }
@@ -62,11 +62,11 @@ class RootFrame: JFrame() {
         this.size = Dimension(600, 200)
         this.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
         val fetch = JButton("Fetch All")
-        fetch.addActionListener { _->
+        fetch.addActionListener {
             fetchAll()
         }
         val settings = JButton("Settings")
-        settings.addActionListener { _->
+        settings.addActionListener {
             val chooser = JFileChooser()
             chooser.currentDirectory = java.io.File(".")
             chooser.dialogTitle = "Choose Download Location"
@@ -77,12 +77,12 @@ class RootFrame: JFrame() {
             }
         }
         val add = JButton("Add")
-        add.addActionListener { _->
+        add.addActionListener {
             this.dispose()
             ItemAddFrame()
         }
         val clear = JButton("Clear List")
-        clear.addActionListener { _->
+        clear.addActionListener {
             users = Vector()
             subreddits = Vector()
             writeDBFile()

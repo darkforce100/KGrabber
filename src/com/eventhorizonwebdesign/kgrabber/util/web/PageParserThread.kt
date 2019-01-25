@@ -6,7 +6,7 @@ class PageParserThread constructor(private val s: String, private val f: String)
     var nextFound = false
     override fun run() {
         try {
-            print("\nLINK CRAWLER " + s)
+            print("\nLINK CRAWLER $s")
             val doc = Jsoup.connect(s).ignoreContentType(true).get()
             val links = doc.select("a[href]")
             for (link in links) {
@@ -31,7 +31,7 @@ class PageParserThread constructor(private val s: String, private val f: String)
             }
         } catch (e: Exception) {
             print("\n" + e.message)
-            print("\n" + s + " 404ed :(")
+            print("\n$s 404ed :(")
         }
     }
 }

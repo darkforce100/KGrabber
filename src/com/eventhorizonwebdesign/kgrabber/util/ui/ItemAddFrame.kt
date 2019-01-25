@@ -39,7 +39,7 @@ class ItemAddFrame: JFrame() {
         dataContainer.layout = BorderLayout()
         val inputBox = JTextField()
         val addButton = JButton("Add")
-        addButton.addActionListener { _->
+        addButton.addActionListener {
             if (inputBox.text == ""){
                 //TODO error no text
             } else {
@@ -53,7 +53,7 @@ class ItemAddFrame: JFrame() {
             }
             writeDBFile()
             this.dispose()
-            main(Array(0, {""}))
+            main(Array(0) {""})
         }
         dataContainer.add(inputBox, BorderLayout.CENTER)
         dataContainer.add(addButton, BorderLayout.SOUTH)
